@@ -141,7 +141,9 @@ public class FirebaseMessageService extends FirebaseMessagingService {
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setPriority(Notification.PRIORITY_MAX)
-                        .setContentIntent(pendingIntent);
+                        .setContentIntent(pendingIntent)
+                        .setChannelId(getString(R.string.default_notification_channel_id));
+                //채널 아이디 값을 정확히 지정해줘야 함
 
                 ChattingMenu.user_me = decodeId;
                 ChattingMenu.user = LoginActivity.userVO.getId();
@@ -163,6 +165,7 @@ public class FirebaseMessageService extends FirebaseMessagingService {
                 }
 
                 notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+                //notify(Id of notification,
 
 
             } else if (ChattingRoom.iInTheChattingRoom) {
