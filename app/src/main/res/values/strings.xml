@@ -19,7 +19,7 @@
     <string name="sign_up_confrim_id">아이디 확인</string>
     <string name="sign_up_id_hint">아이디는 영문 6자리 이상</string>
     <string name="sign_up_pw_hint">특수문자 포함(*,!)등 6자 이상 </string>
-    <string name="sign_up_confirm_pw">비밀번호 확인</string>
+    <string name="sign_up_confirm_pw">비밀번호 재 확인</string>
     <string name="sign_up_re_pw_hint">재 확인</string>
     <string name="sign_up_month">월</string>
     <string name="sign_up_day">일</string>
