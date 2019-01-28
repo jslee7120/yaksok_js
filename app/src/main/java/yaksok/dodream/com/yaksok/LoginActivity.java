@@ -133,12 +133,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         main_pw_edt = (EditText) findViewById(R.id.main_pw_edt);
         fake_g_login = (ImageView)findViewById(R.id.fake_g_login);
         fake_sign_up = (ImageView)findViewById(R.id.fake_sign_up);
-       fake_n_login = (ImageView)findViewById(R.id.fake_id_n_login);
+        fake_n_login = (ImageView)findViewById(R.id.fake_id_n_login);
         fake_k_login = (ImageView)findViewById(R.id.fake_k_login);
 
         fake_g_login.setOnClickListener(this);
         fake_sign_up.setOnClickListener(this);
-       fake_n_login.setOnClickListener(this);
+        fake_n_login.setOnClickListener(this);
         fake_k_login.setOnClickListener(this);
 
 
@@ -184,17 +184,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         login_normal_btn = (Button) findViewById(R.id.login_normal_btn);
-            login_normal_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    userType = "G";
-                    editor.putString("userType",userType);
-                    editor.apply();
+        login_normal_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userType = "G";
+                editor.putString("userType",userType);
+                editor.apply();
 
-                  g_login(main_id_edt.getText().toString(),main_pw_edt.getText().toString(),"G");
+                g_login(main_id_edt.getText().toString(),main_pw_edt.getText().toString(),"G");
 
-                }
-            });
+            }
+        });
 
         login_sign_up_btn = (Button) findViewById(R.id.login_sign_up_btn);
         login_sign_up_btn.setOnClickListener(new View.OnClickListener() {
@@ -461,7 +461,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-//response
+    //response
 //BODY{
 //	“status” : “code”
 //}
@@ -471,7 +471,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //024 : 인증실패(로그인실패)
 //400 : 잘못된요청(userType)
 //500 : Server Error
-    public void naverToLogin(String id, String userType){
+    public void naverToLogin(final String id, final String userType){
         Log.d("login saver test", id);
         userVO = new UserVO();
         userVO.setId(id);
@@ -489,6 +489,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 BodyVO snsBodyVO = response.body();
                 //System.out.println("id"+snsLogVO.getId()+"user"+snsLogVO.getUserType()+"sns"+snsBodyVO.getStatus());
                 if (snsBodyVO.getStatus().equals("200")) {
+
+                    loginInformation = getSharedPreferences("user",MODE_PRIVATE);
+                    editor = loginInformation.edit();
+
+                    editor.putString("id",id);
+                    editor.putString("userType",userType);
+                    editor.apply();
+
+
                     pushToken();
                     Toast.makeText(getApplicationContext(), "반갑습니다.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
@@ -513,12 +522,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-    public void g_login(String g_id, String g_pw,String userType){
+    public void g_login(final String g_id, final String g_pw, final String userType){
 
-         userVO = new UserVO();
-         userVO.setId(g_id);
-         userVO.setPw(g_pw);
-         userVO.setUserType("G");
+        userVO = new UserVO();
+        userVO.setId(g_id);
+        userVO.setPw(g_pw);
+        userVO.setUserType("G");
 
 
         Call<BodyVO> bodyVOCall = userService.postGneralLogin(userVO);
@@ -528,6 +537,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 BodyVO bodyVO = response.body();
                 System.out.println("glogin실행됨"+bodyVO.getStatus()+userVO.getUserType()+userVO.getId()+userVO.getPw());
                 if(bodyVO.getStatus().equals("200")){
+
+                    loginInformation = getSharedPreferences("user",MODE_PRIVATE);
+                    editor = loginInformation.edit();
+
+                    editor.putString("id",g_id);
+                    editor.putString("pw",g_pw);
+                    editor.putString("userType",userType);
+                    editor.apply();
+
+                    Log.d("test",loginInformation.getString("id","")+loginInformation.getString("pw","")+loginInformation.getString("userType",""));
                     Toast.makeText(getApplicationContext(),"반갑습니다.",Toast.LENGTH_LONG).show();
                     pushToken();
                     startActivity(new Intent(getApplicationContext(),MainPageActivity.class));
@@ -553,7 +572,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
     }
-    public void kakaToLogin(String id, String userType){
+    public void kakaToLogin(final String id, final String userType){
         userVO = new UserVO();
         userVO.setId(id);
         userVO.setUserType(userType);
@@ -565,6 +584,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 BodyVO snsBodyVO = response.body();
 
                 if (snsBodyVO.getStatus().equals("200")) {
+
+                    loginInformation = getSharedPreferences("user",MODE_PRIVATE);
+                    editor = loginInformation.edit();
+
+                    editor.putString("id",id);
+                    editor.putString("userType",userType);
+                    editor.apply();
+
                     pushToken();
                     startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
                     Toast.makeText(getApplicationContext(),userVO.getId()+"반갑습니다.",Toast.LENGTH_LONG).show();
@@ -595,7 +622,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.fake_id_n_login:
                 login_naver_btn.performClick();
-               break;
+                break;
             case R.id.fake_k_login:
                 main_kakao_btn.performClick();
                 break;
