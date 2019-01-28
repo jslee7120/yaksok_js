@@ -216,15 +216,24 @@ public class AddYourFmaily extends AppCompatActivity {
                 dialog.setCancelable(false);
                 String user_id = "";
 
-                final String finalUser_id = user_id;
+                fmaily_number_edt.setText("");
+                FamilyItem familyItem = (FamilyItem)family_list_view.getItemAtPosition(position);
+                String user2_id = familyItem.getName();
+
+                int user_index = user2_id.indexOf("/")+1;
+
+                user2_id = user2_id.substring(user_index);
+
+                //final String finalUser_id = user_id;
+                final String finalUser2_id = user2_id;
                 dialog.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         fmaily_number_edt.setText("");
 
-                        FamilyVO familyVO = new FamilyVO();
+                        final FamilyVO familyVO = new FamilyVO();
                         familyVO.setUser_1(LoginActivity.userVO.getId());
-                        familyVO.setUser_2(family_user_id);
+                        familyVO.setUser_2(finalUser2_id);
                         //code
                         //201 : OK
                         //403 : 삽입시 중복
@@ -237,8 +246,8 @@ public class AddYourFmaily extends AppCompatActivity {
                                 assert bodyVO != null;
                                 switch (bodyVO.getStatus()) {
                                     case "201":
-                                        //adapter.addItem(findFamilyVO.getResult().get(0).getNickName()+"/"+findFamilyVO.getResult().get(0).getUserId());
-                                        //family_list_view.setAdapter(adapter);
+//                                        adapter.addItem(bodyVO.getResult().getNickName()+"/"+bodyVO.getResult().getUserId());
+//                                        family_list_view.setAdapter(adapter);
                                         Toast.makeText(getApplicationContext(), "가족 추가가 되었습니다.", Toast.LENGTH_LONG).show();
                                         break;
                                     case "403":
