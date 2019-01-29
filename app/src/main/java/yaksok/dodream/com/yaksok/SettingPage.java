@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -34,14 +35,23 @@ public class SettingPage extends AppCompatActivity {
 
     public Retrofit retrofit,retorofit2;
     public DeleteService deleteService;
+    TextView id,nickname,email,phone;
+    ToggleButton auto_cancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.chat2);
         actionBar.setTitle("설정");
+
         setContentView(R.layout.activity_setting_page);
+
+        id = (TextView) findViewById(R.id.tv_setting_id);
+        nickname = (TextView)findViewById(R.id.tv_setting_nickname);
+        email = (TextView)findViewById(R.id.tv_setting_email);
+        phone = (TextView)findViewById(R.id.tv_setting_phone);
 
 
         retorofit2 = new Retrofit.Builder()
@@ -51,55 +61,42 @@ public class SettingPage extends AppCompatActivity {
                 .build();
         deleteService = retorofit2.create(DeleteService.class);
 
+        id.setText("아이디 : " + LoginActivity.userVO.getId());
+        nickname.setText("닉네임 : " + LoginActivity.userVO.getNickname());
+        email.setText("이메일 : " + LoginActivity.userVO.getEmail());
+        phone.setText("전화번호 : " + LoginActivity.userVO.getPhoneNumber());
 
-        Button auto_cancel = (Button)findViewById(R.id.auto_cancel);
+
+        auto_cancel = (ToggleButton) findViewById(R.id.tgbt_autoLogin);
+        if(LoginActivity.autologin){
+            auto_cancel.setChecked(true);
+        }
+        else{
+            auto_cancel.setChecked(false);
+            auto_cancel.setEnabled(false);
+        }
         auto_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(auto_cancel.isChecked()){
 
-
-                LoginActivity.editor.putBoolean("auto",false);
-                LoginActivity.editor.remove("id");
-                LoginActivity.editor.remove("pw");
-                LoginActivity.editor.remove("userType");
-                LoginActivity.editor.apply();
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                }
+                else {
+                    LoginActivity.autologin = false;
+                    LoginActivity.editor.putBoolean("auto", false);
+                    LoginActivity.editor.remove("id");
+                    LoginActivity.editor.remove("pw");
+                    LoginActivity.editor.remove("userType");
+                    LoginActivity.editor.apply();
+                    finishAffinity();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
             }
         });
 
 
-
-        Button kakao_logout = (Button)findViewById(R.id.kakao_logout);
-        kakao_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-                        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-                        LoginActivity.editor.remove("id");
-                        LoginActivity.editor.remove("pw");
-                        LoginActivity.editor.remove("userType");
-                        LoginActivity.editor.apply();
-                    }
-                });
-            }
-        });
-
-        final Button naver_logout = (Button)findViewById(R.id.naver_logout);
-        naver_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OAuthLogin.getInstance().logout(getApplicationContext());
-                LoginActivity.editor.remove("id");
-                LoginActivity.editor.remove("pw");
-                LoginActivity.editor.remove("userType");
-                LoginActivity.editor.apply();
-
-            }
-        });
-
-        Button goOutBtn = (Button)findViewById(R.id.goOut_btn);
+        Button goOutBtn = (Button)findViewById(R.id.bt_secessionOUT);
         goOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,6 +152,40 @@ public class SettingPage extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.chattingactionbar,null);
+        ImageView imageView = view.findViewById(R.id.back_layout_imv);
+        TextView textView = view.findViewById(R.id.title_txt);
+
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(),MainPageActivity.class);
+//                startActivityForResult(intent,7777);
+                finish();
+            }
+        });
+        textView.setText("설 정");
+        textView.setGravity(Gravity.CENTER);
+//        textView.setGravity(Gravity.CENTER);
+        actionBar.setTitle(textView.getText().toString());
+
+
+
+        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,ActionBar.LayoutParams.MATCH_PARENT,Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
+        actionBar.setCustomView(view,layoutParams);
     }
 
 
