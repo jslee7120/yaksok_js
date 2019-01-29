@@ -22,7 +22,7 @@ public class AlarmReceive extends BroadcastReceiver {   //BroadcastReceiver 가�
 //NotificationManager 안드로이드 상태바에 메세지를 던지기위한 서비스 불러오고
       //  Notification notify = new Notification(android.R.drawable.ic_input_add, "text", System.currentTimeMillis());
 
-        Intent intentActivity = new Intent(context, MainPageActivity.class); //그메세지를 클릭했을때 불러올엑티비티를 설정함
+        Intent intentActivity = new Intent(context, LoginActivity.class); //그메세지를 클릭했을때 불러올엑티비티를 설정함
         intentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);//플레그부분은 옵션인데 나도 자세하게 몰르겠음
