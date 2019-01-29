@@ -55,6 +55,7 @@ public class MainPageActivity extends AppCompatActivity {
     int countTime_hour;
     int countTime_min;
     int pillTime_day = 0;
+    public static boolean main_status = true;
 
 
     @Override
@@ -207,31 +208,53 @@ public class MainPageActivity extends AppCompatActivity {
                     Log.d("countDownTimer", "success");
                     SimpleDateFormat timeFormat = new SimpleDateFormat("HHmm");
                     String countTime = timeFormat.format(nowTime);
-                    int countTime_hour = Integer.parseInt(countTime.substring(0, 2));
-                    int countTime_min = Integer.parseInt(countTime.substring(2));
-                    Log.d("countTIme", countTime);
-                    if (Integer.parseInt(countTime) < ptime) {//다음약이 오늘 일 때(초로 계산)
-                        Log.d("지금", "성공");
-                        times = ((pilltime_h * 3600) + (pilltime_m * 60)) - ((countTime_hour * 3600) + (countTime_min * 60));
-                        if (times < 3600)
-                            h = 0;
-                        else
+                        int countTime_hour = Integer.parseInt(countTime.substring(0, 2));
+                        int countTime_min = Integer.parseInt(countTime.substring(2));
+                        Log.d("countTIme", countTime);
+                        Log.d("PillTime",String.valueOf(pilltime_h+""+pilltime_m));
+                        String m1 = null, h1 = null;
+                       /* if(pilltime_h/10 < 1){
+                            h1 = "0" + String.valueOf(pilltime_h);
+                        }
+                        else if(pilltime_h/10 > 1){
+                            h1 = String.valueOf(pilltime_h);
+                        }
+                        if(pilltime_m/10 < 1){
+                            m1 = "0" + String.valueOf(pilltime_m);
+                        }
+                        else if(pilltime_m/10 > 1){
+                            m1 = String.valueOf(pilltime_m);
+                        }
+                        if((h1+m1).equals(countTime)){
+                            pillTime();
+                            return;
+                        }*/
+                        if (Integer.parseInt(countTime) < ptime) {//다음약이 오늘 일 때(초로 계산)
+                            Log.d("지금", "성공");
+                            times = ((pilltime_h * 3600) + (pilltime_m * 60)) - ((countTime_hour * 3600) + (countTime_min * 60));
+                            if (times < 3600)
+                                h = 0;
+
+                            else
+                                h = times / 3600;
+
+                            m = (times % 3600 / 60);
+
+
+                        } else {//다음약이 내일일때(초로 계산)
+                            t1 = (((23 * 3600) + (59 * 60)) - ((countTime_hour * 3600) + (countTime_min * 60)));
+                            times = (t1 + ((pilltime_h * 3600) + (pilltime_m * 60)));
+                            m = (times % 3600 / 60);
                             h = times / 3600;
+                        }
 
-                        m = (times % 3600 / 60);
-                    } else {//다음약이 내일일때(초로 계산)
-                        t1 = (((23 * 3600) + (59 * 60)) - ((countTime_hour * 3600) + (countTime_min * 60)));
-                        times = (t1 + ((pilltime_h * 3600) + (pilltime_m * 60)));
-                        m = (times % 3600 / 60);
-                        h = times / 3600;
-                    }
+                        handler.sendEmptyMessage(0);
 
-                    handler.sendEmptyMessage(0);
+                        if (m / 10 == 0)
+                            handler.sendEmptyMessage(1);
+                        else
+                            handler.sendEmptyMessage(2);//시간의 나머지초/60하여 분으로 표시
 
-                    if (m / 10 == 0)
-                        handler.sendEmptyMessage(1);
-                    else
-                        handler.sendEmptyMessage(2);//시간의 나머지초/60하여 분으로 표시
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -272,6 +295,8 @@ public class MainPageActivity extends AppCompatActivity {
                     pilltime_h = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(0, 2));
                     pilltime_m = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(2));
                     ptime = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(0, 4));
+
+                  //  if(nowtime_hour == curTime)
 
                     if (Integer.parseInt(curTime) <= ptime) {//다음약이 오늘 일 때(초로 계산)
                         Log.d("if1", "오늘");
@@ -346,7 +371,9 @@ public class MainPageActivity extends AppCompatActivity {
             Log.d("음..","오늘약");
         }
         //알람 예약
-        am.set(AlarmManager.RTC, calendar.getTimeInMillis(), pender);//이건 한번 알람
+
+        //am.set(AlarmManager.RTC, calendar.getTimeInMillis(), pender);//이건 한번 알람
+        am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pender);
         //am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, sender);//이건 여러번 알람 24*60*60*1000 이건 하루에한번 계속 알람한다는 뜻.
     }
 
