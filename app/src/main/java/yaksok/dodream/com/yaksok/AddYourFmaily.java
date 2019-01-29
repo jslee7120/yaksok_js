@@ -290,12 +290,13 @@ public class AddYourFmaily extends AppCompatActivity {
 
 
 
+
         //삭제할때
         family_list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                String name = ((FamilyItem)adapter.getItem(position)).getName();
+                final String name = ((FamilyItem)adapter.getItem(position)).getName();
                 FamilyItem familyItem = (FamilyItem)family_list_view.getItemAtPosition(position);
                 String user2_id = familyItem.getName();
 
@@ -304,39 +305,63 @@ public class AddYourFmaily extends AppCompatActivity {
                 user2_id = user2_id.substring(user_index);
                 Log.d("user222222",user2_id);
 
-                Log.d("user_id_2",name);
-                FamilyDelVO familyDelVO = new FamilyDelVO();
-                familyDelVO.setUser_1(LoginActivity.userVO.getId());
-                familyDelVO.setUser_2(user2_id);
-                Log.d("aaaaaaaa",family_user_id);
+                dialog.setTitle("가족 삭제");
+                dialog.setMessage(name+"을 삭제 하시겠습니까?");
+                dialog.setCancelable(false);
 
-                Call<FamilyBodyVO> delectionCall = deleteService.deleteBody(familyDelVO);
-
-                delectionCall.enqueue(new Callback<FamilyBodyVO>() {
+                final String finalUser2_id = user2_id;
+                dialog.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(Call<FamilyBodyVO> call, Response<FamilyBodyVO> response) {
-                        FamilyBodyVO familyBodyVO = response.body();
-                        if(familyBodyVO.getStatus().equals("201")){
-                            Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("user_id_2",name);
+                        FamilyDelVO familyDelVO = new FamilyDelVO();
+                        familyDelVO.setUser_1(LoginActivity.userVO.getId());
+                        familyDelVO.setUser_2(finalUser2_id);
+                        Log.d("aaaaaaaa",family_user_id);
 
-                            familyItems.remove(position);
-                            adapter.notifyDataSetChanged();
-                            adapter.notifyDataSetInvalidated();
+                        Call<FamilyBodyVO> delectionCall = deleteService.deleteBody(familyDelVO);
 
-                            // alreadyConnectedFamily();
-                        }else if(familyBodyVO.getStatus().equals("500")){
-                            Toast.makeText(getApplicationContext(),"서버 에러입니다.",Toast.LENGTH_LONG).show();
+                        delectionCall.enqueue(new Callback<FamilyBodyVO>() {
+                            @Override
+                            public void onResponse(Call<FamilyBodyVO> call, Response<FamilyBodyVO> response) {
+                                FamilyBodyVO familyBodyVO = response.body();
+                                if(familyBodyVO.getStatus().equals("201")){
+                                    Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
 
-                        }
+                                    familyItems.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetInvalidated();
 
+                                    // alreadyConnectedFamily();
+                                }else if(familyBodyVO.getStatus().equals("500")){
+                                    Toast.makeText(getApplicationContext(),"서버 에러입니다.",Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }
+
+
+                            @Override
+                            public void onFailure(Call<FamilyBodyVO> call, Throwable t) {
+
+                            }
+                        });
                     }
 
+                });
 
+                dialog.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFailure(Call<FamilyBodyVO> call, Throwable t) {
-
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
                 });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+
+
+
+
 
 
                 return false;
