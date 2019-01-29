@@ -2,6 +2,7 @@ package yaksok.dodream.com.yaksok;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -100,9 +101,14 @@ public class InsertPillActivity extends AppCompatActivity{
         bt_QRScan.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //scan option
+
+
+
                 qrScan.setPrompt("QR코드를 스캔하세요");
                 qrScan.setOrientationLocked(false); //디폴트는 가로인데 세로일 경우 세로로 바꾸는 함
+                qrScan.setCaptureActivity(CaptureActivity.class);
                 qrScan.initiateScan();
+
             }
         });
 
