@@ -296,25 +296,32 @@ public class MainPageActivity extends AppCompatActivity {
                     pilltime_m = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(2));
                     ptime = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(0, 4));
 
-                  //  if(nowtime_hour == curTime)
-
-                    if (Integer.parseInt(curTime) <= ptime) {//다음약이 오늘 일 때(초로 계산)
-                        Log.d("if1", "오늘");
-                        times = ((pilltime_h * 3600) + (pilltime_m * 60)) - ((nowtime_hour * 3600) + (nowtime_min * 60));
-                        if (times < 3600)
-                            h = 0;
-                        else {
+                    if(ptime == Integer.parseInt(curTime)){
+                            pillTime_day = 1;//다음약이 내일일(초로 계산)
+                            t1 = (((23 * 3600) + (59 * 60)) - ((nowtime_hour * 3600) + (nowtime_min * 60)));
+                            times = (t1 + ((pilltime_h * 3600) + (pilltime_m * 60)));
                             h = times / 3600;
-                            m = (times % 3600 / 60) + 1;
-                        }
-                    } else {
-                        pillTime_day = 1;//다음약이 내일일(초로 계산)
-                        t1 = (((23 * 3600) + (59 * 60)) - ((nowtime_hour * 3600) + (nowtime_min * 60)));
-                        times = (t1 + ((pilltime_h * 3600) + (pilltime_m * 60)));
-                        h = times / 3600;
-                        m = (times % 3600 / 60);
+                            m = (times % 3600 / 60);
                     }
+                    else {
 
+                        if (Integer.parseInt(curTime) <= ptime) {//다음약이 오늘 일 때(초로 계산)
+                            Log.d("if1", "오늘");
+                            times = ((pilltime_h * 3600) + (pilltime_m * 60)) - ((nowtime_hour * 3600) + (nowtime_min * 60));
+                            if (times < 3600)
+                                h = 0;
+                            else {
+                                h = times / 3600;
+                                m = (times % 3600 / 60) + 1;
+                            }
+                        } else {
+                            pillTime_day = 1;//다음약이 내일일(초로 계산)
+                            t1 = (((23 * 3600) + (59 * 60)) - ((nowtime_hour * 3600) + (nowtime_min * 60)));
+                            times = (t1 + ((pilltime_h * 3600) + (pilltime_m * 60)));
+                            h = times / 3600;
+                            m = (times % 3600 / 60);
+                        }
+                    }
 
                     tv_main_hour.setText(h + "");
                     if (m / 10 == 0)
