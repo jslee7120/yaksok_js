@@ -73,15 +73,22 @@ public class AlarmReciveFamily extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SparseBooleanArray checkedItems = listview.getCheckedItemPositions();
+                Log.d("data+++","들어 왔는데..");
                 int count = adapter.getCount();
+                resultIntent.putExtra("list_size",String.valueOf(count));
+                Log.d("list_size",String.valueOf(count));
                 for(int i=count-1; i>=0; i--) {
+                    Log.d("dataNum",String.valueOf(i));
                     if (checkedItems.get(i)) {
                         resultIntent.putExtra("name"+i,items.get(i));
                         resultIntent.putExtra("id"+i,items_id.get(i));
-                        Log.d("data_name", items.get(i));
+                        Log.d("data_name", items.get(i) + items.get(i));
                     }
-
+                    else{
+                        resultIntent.putExtra("name"+i,"null");
+                        resultIntent.putExtra("id"+i,"null");
                     }
+                }
                     finish();
             }
         });

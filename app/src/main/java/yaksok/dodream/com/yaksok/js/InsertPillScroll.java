@@ -288,10 +288,15 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
             }
             if(requestCode == 9000){
                 Log.d("dataSize",String.valueOf(data.getExtras().size()));
-                for(int i=0; i < (data.getExtras().size()/2); i++) {
-                    f_id.add(data.getStringExtra("id"+i));
-                    alarm_f_list.add(data.getStringExtra("name"+i));
-                    Log.d("data1",data.getStringExtra("name" + i) +"/"+ data.getStringExtra("id"+i));
+                for(int i=0; i < Integer.parseInt(data.getStringExtra("list_size")); i++) {
+                    if(data.getStringExtra("name"+i).equals("null")){
+
+                    }
+                    else {
+                        f_id.add(data.getStringExtra("id" + i));
+                        alarm_f_list.add(data.getStringExtra("name" + i));
+                        Log.d("data1", data.getStringExtra("name" + i) + "/" + data.getStringExtra("id" + i));
+                    }
                 }
                 adapter.notifyDataSetChanged();
                 bt_AlarmReciveFamily.setEnabled(false);
