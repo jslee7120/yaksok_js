@@ -158,27 +158,32 @@ public class AddYourFmaily extends AppCompatActivity {
         family_find_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<FindFamilyVO> findFamilyVOCall = userService.getUserList(fmaily_number_edt.getText().toString(), "phoneNumber");
-                findFamilyVOCall.enqueue(new Callback<FindFamilyVO>() {
-                    @Override
-                    public void onResponse(Call<FindFamilyVO> call, Response<FindFamilyVO> response) {
-                        final FindFamilyVO findFamilyVO = response.body();
+                if (fmaily_number_edt.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "전화번호를 입력하세요", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Call<FindFamilyVO> findFamilyVOCall = userService.getUserList(fmaily_number_edt.getText().toString(), "phoneNumber");
+                    findFamilyVOCall.enqueue(new Callback<FindFamilyVO>() {
+                        @Override
+                        public void onResponse(Call<FindFamilyVO> call, Response<FindFamilyVO> response) {
+                            final FindFamilyVO findFamilyVO = response.body();
 
-                        if (findFamilyVO.getStatus().equals("200")) {
-                            isAddedFamily = true;
-                            for (int i = 0; i < findFamilyVO.getResult().size(); i++) {
-                                adapter.addItem(findFamilyVO.getResult().get(i).getNickName()+"/"+findFamilyVO.getResult().get(i).getUserId());
-                                adapter.setNameToId(findFamilyVO.getResult().get(i).getUserId());
-                                //Log.d("ddddddd",id);
-                                family_list_view.setAdapter(adapter);
-                                familyVO = new FamilyVO();
-                                //Log.d("bbbbbbbbbbb",""+family_list_view.getMeasuredHeight());
+                            if (findFamilyVO.getStatus().equals("200")) {
+                                isAddedFamily = true;
+                                for (int i = 0; i < findFamilyVO.getResult().size(); i++) {
+                                    if (findFamilyVO.getResult().get(i).getPhoneNumber().equals(LoginActivity.userVO.getPhoneNumber())) {
+                                    } else {
+                                        adapter.addItem(findFamilyVO.getResult().get(i).getNickName() + "/" + findFamilyVO.getResult().get(i).getUserId());
+                                        adapter.setNameToId(findFamilyVO.getResult().get(i).getUserId());
+                                        //Log.d("ddddddd",id);
+                                        family_list_view.setAdapter(adapter);
+                                        familyVO = new FamilyVO();
+                                        //Log.d("bbbbbbbbbbb",""+family_list_view.getMeasuredHeight());
 
 
-                                family_user_id = findFamilyVO.getResult().get(i).getUserId();
-                            }
-
-
+                                        family_user_id = findFamilyVO.getResult().get(i).getUserId();
+                                    }
+                                }
 
 
 //                              if(family_list_view != null){
@@ -190,20 +195,21 @@ public class AddYourFmaily extends AppCompatActivity {
 ////                                                                        }
 
 
-                        } else if (findFamilyVO.getStatus().equals("204")) {
-                            Toast.makeText(getApplicationContext(), "상대의 계정이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
-                        } else if (findFamilyVO.getStatus().equals("400")) {
-                            Toast.makeText(getApplicationContext(), "잘못된 요청입니다.", Toast.LENGTH_LONG).show();
-                        } else if (findFamilyVO.getStatus().equals("500")) {
-                            Toast.makeText(getApplicationContext(), "서버 오루 입니다..", Toast.LENGTH_LONG).show();
+                            } else if (findFamilyVO.getStatus().equals("204")) {
+                                Toast.makeText(getApplicationContext(), "상대의 계정이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
+                            } else if (findFamilyVO.getStatus().equals("400")) {
+                                Toast.makeText(getApplicationContext(), "잘못된 요청입니다.", Toast.LENGTH_LONG).show();
+                            } else if (findFamilyVO.getStatus().equals("500")) {
+                                Toast.makeText(getApplicationContext(), "서버 오루 입니다..", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<FindFamilyVO> call, Throwable t) {
-                        System.out.println(t.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<FindFamilyVO> call, Throwable t) {
+                            System.out.println(t.getMessage());
+                        }
+                    });
+                }
             }
         });
 
@@ -393,7 +399,6 @@ public class AddYourFmaily extends AppCompatActivity {
             @Override
             public void onResponse(Call<FindFamilyVO> call, Response<FindFamilyVO> response) {
                 FindFamilyVO findFamilyVO = response.body();
-                Toast.makeText(getApplicationContext(),findFamilyVO.getStatus(),Toast.LENGTH_SHORT).show();
 
                 if (findFamilyVO.getStatus().equals("200")) {
 
