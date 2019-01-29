@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class MainPageActivity extends AppCompatActivity {
     int countTime_min;
     int pillTime_day = 0;
     public static boolean main_status = true;
+    ImageButton bt_setting;
 
 
     @Override
@@ -76,6 +78,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
+        bt_setting = (ImageButton)findViewById(R.id.go_to_setting_btn);
         tv_main_hour = (TextView) findViewById(R.id.tv_main_hour);
         tv_main_min = (TextView) findViewById(R.id.tv_main_min);
         tv_main_name = (TextView)findViewById(R.id.tv_main_name);
@@ -83,6 +86,13 @@ public class MainPageActivity extends AppCompatActivity {
             Log.d("name~~", "" + LoginActivity.userVO.getNickname());
             tv_main_name.setText("" + LoginActivity.userVO.getNickname());
         }
+
+        bt_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getApplicationContext(),SettingPage.class),3333);
+            }
+        });
 
 
 

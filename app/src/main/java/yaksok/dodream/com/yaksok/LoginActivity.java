@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public String auto_pw;
     public String auto_type;
     public boolean auto_quustion;
-    public static boolean autologin;
+    public static boolean autologin=false;
 
     ImageView fake_g_login,fake_sign_up,fake_n_login,fake_k_login;
 
@@ -155,6 +155,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         if(loginInformation.getBoolean("auto",true)){
+            autologin = true;
             switch (loginInformation.getString("userType","")){
                 case "G":
                     String test_id = loginInformation.getString("id","");
@@ -290,6 +291,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    autologin = true;
                     editor.putString("id",main_id_edt.getText().toString());
                     editor.putString("pw",main_pw_edt.getText().toString());
                     editor.putBoolean("auto",true);
@@ -494,6 +496,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
 
                     userVO.setNickname(snsBodyVO.getResult().getNickName());
+                    userVO.setEmail(snsBodyVO.getResult().getEmail());
+                    userVO.setPhoneNumber(snsBodyVO.getResult().getPhoneNumber());
 
                 } else if (snsBodyVO.getStatus().equals("024")) {
                     Toast.makeText(getApplicationContext(), "유저 타입이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
@@ -532,6 +536,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     pushToken();
                     startActivity(new Intent(getApplicationContext(),MainPageActivity.class));
                     userVO.setNickname(bodyVO.getResult().getNickName());
+                    userVO.setEmail(bodyVO.getResult().getEmail());
+                    userVO.setPhoneNumber(bodyVO.getResult().getPhoneNumber());
 
                 }
                 else if (bodyVO.getStatus().equals("024")) {
@@ -569,6 +575,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(getApplicationContext(), MainPageActivity.class));
                     Toast.makeText(getApplicationContext(),userVO.getId()+"반갑습니다.",Toast.LENGTH_LONG).show();
                     userVO.setNickname(snsBodyVO.getResult().getNickName());
+                    userVO.setEmail(snsBodyVO.getResult().getEmail());
+                    userVO.setPhoneNumber(snsBodyVO.getResult().getPhoneNumber());
 
                 } else if (snsBodyVO.getStatus().equals("024")) {
                     Toast.makeText(getApplicationContext(), "유저 타입이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
