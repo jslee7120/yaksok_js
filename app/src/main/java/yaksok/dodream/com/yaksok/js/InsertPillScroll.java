@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +60,7 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
     UserService userService;
     ImageView minus_count,plus_count;
     Intent intent;
+    LinearLayout lv_layout;
 
 
     @Override
@@ -97,7 +100,18 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
         minus_count = (ImageView) findViewById(R.id.minus_count);
         plus_count = (ImageView) findViewById(R.id.plus_count);
         bt_AlarmReciveFamily = (Button)findViewById(R.id.bt_AlarmReciveFamily);
+        lv_layout = (LinearLayout)findViewById(R.id.lv_layout);
         lv_alarmFamily = (ListView)findViewById(R.id.lv_alarmFamily);
+
+
+        lv_alarmFamily.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                lv_alarmFamily.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(userService.API_URL)
@@ -114,6 +128,7 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
                 startActivityForResult(intent, 9000);
             }
         });
+
 
 
         // 버튼을 누르면 새 뷰가 추가됨.
@@ -287,20 +302,23 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
                 bt_add.setEnabled(false);
             }
             if(requestCode == 9000){
+                int size = 0;
                 Log.d("dataSize",String.valueOf(data.getExtras().size()));
                 for(int i=0; i < Integer.parseInt(data.getStringExtra("list_size")); i++) {
                     if(data.getStringExtra("name"+i).equals("null")){
-
                     }
                     else {
                         f_id.add(data.getStringExtra("id" + i));
                         alarm_f_list.add(data.getStringExtra("name" + i));
                         Log.d("data1", data.getStringExtra("name" + i) + "/" + data.getStringExtra("id" + i));
+                        size++;
                     }
                 }
                 adapter.notifyDataSetChanged();
                 bt_AlarmReciveFamily.setEnabled(false);
-
+                ViewGroup.LayoutParams params = lv_alarmFamily.getLayoutParams();
+                params.height = 200*size;
+                lv_alarmFamily.setLayoutParams(params);
                 lv_alarmFamily.setAdapter(adapter);
             }
         }
