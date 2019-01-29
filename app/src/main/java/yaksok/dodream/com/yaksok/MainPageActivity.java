@@ -57,6 +57,12 @@ public class MainPageActivity extends AppCompatActivity {
     int pillTime_day = 0;
     public static boolean main_status = true;
 
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+    //누르는 이벤트 사이의 시간 간격을 위해 FINISH_INTERVAL_TIME을 지정
+    //설정된 시간 이내에 연속적으로 뒤로가기가 이벤트가 일어났을 때만 종료 됨
+    //설정해 놓은 시간이 지나면 다시 두번 눌러야 종료되는 상태로 최기화
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -442,5 +448,47 @@ public class MainPageActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+        //            super.onBackPressed();
+        //        } else {
+        //            backPressedTime = tempTime;
+        //            Toast.makeText(this, "one more", Toast.LENGTH_SHORT).show();
+
+        if(LoginActivity.loginInformation.getBoolean("auto",true)){
+            long tempTime = System.currentTimeMillis();//154872781039
+            long intervalTime = tempTime - backPressedTime; // 154872781039 - 0
+
+            // invervalTime = 154872781039
+            if(0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime){
+                super.onBackPressed();
+                moveTaskToBack(true);
+                finish();
+
+            }else{
+
+                backPressedTime = tempTime; //backPressedTime = 154872781039
+                Toast.makeText(getApplicationContext(),"종료하시려면 한번 더 눌러주세요",Toast.LENGTH_LONG).show();
+
+            }
+        }else{
+            finish();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(LoginActivity.loginInformation.getBoolean("auto",true))
+            android.os.Process.killProcess(android.os.Process.myPid() );
+
+
+
+
+
     }
 }
