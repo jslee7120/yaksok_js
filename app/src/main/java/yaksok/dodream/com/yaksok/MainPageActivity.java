@@ -400,39 +400,6 @@ public class MainPageActivity extends AppCompatActivity {
         //am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, sender);//이건 여러번 알람 24*60*60*1000 이건 하루에한번 계속 알람한다는 뜻.
     }
 
-    public void takeMedicine() {
-        //커밋??
-        TakeOk takeOk = new TakeOk();
-        takeOk.setGivingUser(AlarmReceive.userId);
-        takeOk.setMyMedicineNo(AlarmReceive.pillNo);
-        // Log.d("Check",intent.getStringExtra("uId") + takeOk.getGivingUser());
-
-        Log.d("스태틱 값", AlarmReceive.pillNo + AlarmReceive.userId);
-        Log.d("takeOk값", takeOk.getGivingUser() + takeOk.getMyMedicineNo());
-
-        Call<StatusVO> call = userService.putTakeMedicine(takeOk);
-        System.out.println("@@@@@@@@@@@@@@@@@@@");
-        call.enqueue(new Callback<StatusVO>() {
-            @Override
-            public void onResponse(Call<StatusVO> call, Response<StatusVO> response) {
-                StatusVO mVO = response.body();
-//                    System.out.println("@@@@@@@@@@@@@@@@@@@" + mVO.getStatus());
-                if (mVO.getStatus().equals("200")) {
-                    Log.d("약복용 서비스 ", "복용 완료");
-                } else if (mVO.getStatus().equals("202")) {
-                    Log.d("약복용 서비스 ", "복용 완료 후 약 삭제");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<StatusVO> call, Throwable t) {
-                System.out.println(t.fillInStackTrace().getMessage());
-            }
-
-        });
-
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

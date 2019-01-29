@@ -105,7 +105,7 @@ public class SearchPill extends AppCompatActivity {
 //                } catch (UnsupportedEncodingException e) {
 //                    e.printStackTrace();
 //                }
-                if(Pill.equals("")||Pill.equals(null)){
+                if(et_PillSearch.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(), "검색어를 입력하세요", Toast.LENGTH_LONG).show();
                 }
                 else {
