@@ -405,8 +405,9 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("requestCode",String.valueOf(requestCode));
-        finish();
-        startActivity(new Intent(this, MainPageActivity.class));
+        if(requestCode == 4000) {
+            pillTime();
+        }
 /*
 
         if(requestCode==7777){
