@@ -40,7 +40,7 @@ public class SettingPage extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         actionBar.setIcon(R.drawable.chat2);
-        actionBar.setTitle("쇼핑");
+        actionBar.setTitle("설정");
         setContentView(R.layout.activity_setting_page);
 
 
