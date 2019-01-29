@@ -313,7 +313,6 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
                     bt_add.setEnabled(false);
                 }
             }
-<<<<<<< HEAD
             if(requestCode == 9000) {
                 if (data.getExtras() != null) {
                     Log.d("dataSize", String.valueOf(data.getExtras().size()));
