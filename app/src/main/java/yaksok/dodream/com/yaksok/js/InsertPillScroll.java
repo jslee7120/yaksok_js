@@ -177,6 +177,7 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
             }
         }
 
+
         dialog1 = new TimePickerDialog(this, listener1, 00, 00, true);
         bt_1time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,48 +204,37 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
         bt_PillInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (et_DiseaseName.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "약 이름을 입력하세요", Toast.LENGTH_LONG).show();
-                } else if (et_Pill == null) {
-                    Toast.makeText(getApplicationContext(), "약을 추가하세요", Toast.LENGTH_LONG).show();
-                } else if (et_Pill.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "약을 추가하세요", Toast.LENGTH_LONG).show();
-                } else if (et_dosagi.getText().toString().equals("0")) {
-                    Toast.makeText(getApplicationContext(), "복용 횟수를 입력하세요", Toast.LENGTH_LONG).show();
-                } else if (tv_1m.getText().toString().equals("          ")) {
-                    Toast.makeText(getApplicationContext(), "시간을 설정하세요", Toast.LENGTH_LONG).show();
-                } else {
-                    InsertPillList vo = new InsertPillList();
-                    vo.setDosagi(et_dosagi.getText().toString());
-                    vo.setElementList(pillList);
-                    vo.setName(et_DiseaseName.getText().toString());
-                    vo.setUserId(LoginActivity.userVO.getId());
-                    vo.setAlarmList(f_id);
-                    vo.setTimeList(time);
-                    System.out.println(vo.getUserId() + "!!!!!!!!!!!!!et_dosagi" + et_dosagi.getText().toString() + "  pilllist" + pillList + "et_diseasename " + et_DiseaseName.getText().toString() + "time " + time);
-                    Call<StatusVO> call = userService.postMyInserttPill(vo);
-                    call.enqueue(new Callback<StatusVO>() {
-                        @Override
-                        public void onResponse(Call<StatusVO> call, Response<StatusVO> response) {
-                            StatusVO statusVO = response.body();
-                            System.out.println("############" + statusVO.getStatus());
-                            if (statusVO.getStatus().equals("201")) {
-                                Toast.makeText(getApplicationContext(), "등록 성공", Toast.LENGTH_LONG).show();
-                                InsertPillActivity.user_id = LoginActivity.userVO.getId();
-                                finish();
-                            } else if (statusVO.getStatus().equals("403"))
-                                Toast.makeText(getApplicationContext(), "약 중복", Toast.LENGTH_LONG).show();
-                            else if (statusVO.getStatus().equals("500"))
-                                Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
-                        }
+                InsertPillList vo = new InsertPillList();
+                vo.setDosagi(et_dosagi.getText().toString());
+                vo.setElementList(pillList);
+                vo.setName(et_DiseaseName.getText().toString());
+                vo.setUserId(LoginActivity.userVO.getId());
+                vo.setAlarmList(f_id);
+                Log.d("rrr",f_id.get(0));
+                vo.setTimeList(time);
+                System.out.println(vo.getUserId()+"!!!!!!!!!!!!!et_dosagi"+et_dosagi.getText().toString()+"  pilllist" + pillList + "et_diseasename "+et_DiseaseName.getText().toString() + "time "+time);
+                Call<StatusVO> call = userService.postMyInserttPill(vo);
+                call.enqueue(new Callback<StatusVO>() {
+                    @Override
+                    public void onResponse(Call<StatusVO> call, Response<StatusVO> response) {
+                        StatusVO statusVO = response.body();
+                        System.out.println("############" + statusVO.getStatus());
+                        if (statusVO.getStatus().equals("201")) {
+                            Toast.makeText(getApplicationContext(), "등록 성공", Toast.LENGTH_LONG).show();
+                            InsertPillActivity.user_id = LoginActivity.userVO.getId();
+                            finish();
+                        } else if (statusVO.getStatus().equals("403"))
+                            Toast.makeText(getApplicationContext(), "약 중복", Toast.LENGTH_LONG).show();
+                        else if (statusVO.getStatus().equals("500"))
+                            Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
+                    }
 
-                        @Override
-                        public void onFailure(Call<StatusVO> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<StatusVO> call, Throwable t) {
 
-                        }
-                    });
+                    }
+                });
 
-                }
             }
         });
 
@@ -305,31 +295,31 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if(data != null) {
             if(requestCode == 3000) {
-                if(data.getExtras() != null) {
-                    int number = Integer.parseInt(data.getStringExtra("number"));
-                    pillList.add(number);
-                    et_Pill.setText(data.getStringExtra("result"));
-                    et_Pill.setEnabled(false);
-                    bt_add.setEnabled(false);
-                }
+                int number = Integer.parseInt(data.getStringExtra("number"));
+                pillList.add(number);
+                et_Pill.setText(data.getStringExtra("result"));
+                et_Pill.setEnabled(false);
+                bt_add.setEnabled(false);
             }
-            if(requestCode == 9000) {
-                if (data.getExtras() != null) {
-                    Log.d("dataSize", String.valueOf(data.getExtras().size()));
-                    for (int i = 0; i < Integer.parseInt(data.getStringExtra("list_size")); i++) {
-                        if (data.getStringExtra("name" + i).equals("null")) {
-
-                        } else {
-                            f_id.add(data.getStringExtra("id" + i));
-                            alarm_f_list.add(data.getStringExtra("name" + i));
-                            Log.d("data1", data.getStringExtra("name" + i) + "/" + data.getStringExtra("id" + i));
-                        }
+            if(requestCode == 9000){
+                int size = 0;
+                Log.d("dataSize",String.valueOf(data.getExtras().size()));
+                for(int i=0; i < Integer.parseInt(data.getStringExtra("list_size")); i++) {
+                    if(data.getStringExtra("name"+i).equals("null")){
                     }
-                    adapter.notifyDataSetChanged();
-                    bt_AlarmReciveFamily.setEnabled(false);
-
-                    lv_alarmFamily.setAdapter(adapter);
+                    else {
+                        f_id.add(data.getStringExtra("id" + i));
+                        alarm_f_list.add(data.getStringExtra("name" + i));
+                        Log.d("data1", data.getStringExtra("name" + i) + "/" + data.getStringExtra("id" + i));
+                        size++;
+                    }
                 }
+                adapter.notifyDataSetChanged();
+                bt_AlarmReciveFamily.setEnabled(false);
+                ViewGroup.LayoutParams params = lv_alarmFamily.getLayoutParams();
+                params.height = 200*size;
+                lv_alarmFamily.setLayoutParams(params);
+                lv_alarmFamily.setAdapter(adapter);
             }
         }
     }
