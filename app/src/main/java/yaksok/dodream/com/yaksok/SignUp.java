@@ -43,7 +43,7 @@ import yaksok.dodream.com.yaksok.vo.UserVO;
 
 public class SignUp extends AppCompatActivity {
     private ImageView sign_profile_imv;
-    public static EditText sign_up_name_edt,sign_up_id_edt,sign_up_pw_edt,sign_up_re_pw_edt,sign_up_phone_number_edt,sign_authorization_number,sign_up_email_edt,sign_up_yourself_email;
+    public static EditText sign_up_name_edt,sign_up_id_edt,sign_up_pw_edt,sign_up_re_pw_edt,sign_up_phone_number_edt,sign_authorization_number,sign_up_email_edt,sign_up_yourself_email,sign_up_yourself_address_email;
     private Spinner sign_up_year_spin,sign_up_month_spin,sign_up_day_spin,sign_up_phone_conpany_spin,sign_up_phone_first_spin,sign_up_email_spin;
     private Button sign_up_check_id_btn,sign_up_check_pw_btn,sign_up_check_authorization_num_btn,sign_up_compelte_btn;
     private String age_range;// age_range 넘기기
@@ -114,6 +114,8 @@ public class SignUp extends AppCompatActivity {
 
 
 //        final MyDatabaseOpenHelper DBHELPER = new MyDatabaseOpenHelper(getApplicationContext(), "YakSok.db", null, 1);
+
+        sign_up_yourself_address_email = (EditText)findViewById(R.id.sign_email_yourself_address_edt);
 
         sign_up_name_edt = (EditText)findViewById(R.id.sign_name_edt);
 
@@ -211,7 +213,7 @@ public class SignUp extends AppCompatActivity {
                day = Integer.parseInt(sign_up_day_spin.getItemAtPosition(position).toString());
 
                birthday = String.valueOf(month)+"-"+String.valueOf(day);
-                Toast.makeText(getApplicationContext(),birthday,Toast.LENGTH_LONG).show();
+
 
             }
 
@@ -225,6 +227,7 @@ public class SignUp extends AppCompatActivity {
         String[] phone_company = getResources().getStringArray(R.array.phone_company);
         ArrayAdapter<String> phoneCompanyAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,phone_company);
         sign_up_phone_conpany_spin.setAdapter(phoneCompanyAdapter);
+
 
 
 //
@@ -259,7 +262,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                user_email = sign_up_yourself_email.getText().toString();
+                user_email = sign_up_yourself_email.getText().toString() + "@" + sign_up_yourself_address_email.getText().toString();
                 if(checkEmail(user_email)){
                     Toast.makeText(getApplicationContext(),"사용할 수 있는 이메일 입니다.",Toast.LENGTH_LONG).show();
                 }
@@ -290,7 +293,7 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"6글자 이상으로 아이디를 입력해주세요.",Toast.LENGTH_LONG).show();
                 }
                else{
-                    Toast.makeText(getApplicationContext(),"성공",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"아이디가 적합합니다",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -378,8 +381,8 @@ public class SignUp extends AppCompatActivity {
         sign_up_check_authorization_num_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.sign_authorization_layout);
-                linearLayout.setVisibility(View.VISIBLE);
+               // LinearLayout linearLayout = (LinearLayout) findViewById(R.id.sign_authorization_layout);
+                //linearLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -457,9 +460,6 @@ public class SignUp extends AppCompatActivity {
                Log.d("server","server");
                Log.d("server_before","sssssssss");
 
-
-
-               Toast.makeText(getApplicationContext(),bodyVO.getStatus(),Toast.LENGTH_LONG).show();
                if(bodyVO.getStatus().equals("201")){
                    startActivity(new Intent(getApplicationContext(),AddYourFmaily.class));
                    Toast.makeText(getApplicationContext(),"가입 성공 되었습니다.",Toast.LENGTH_LONG).show();
