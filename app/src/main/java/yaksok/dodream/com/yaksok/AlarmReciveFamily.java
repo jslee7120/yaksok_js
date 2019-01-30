@@ -69,12 +69,15 @@ public class AlarmReciveFamily extends AppCompatActivity {
         resultIntent = new Intent();
         setResult(9000,resultIntent);
 
+        resultIntent.putExtra("status","123");
+
         bt_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SparseBooleanArray checkedItems = listview.getCheckedItemPositions();
                 Log.d("data+++","들어 왔는데..");
                 int count = adapter.getCount();
+                resultIntent.putExtra("status","111");
                 resultIntent.putExtra("list_size",String.valueOf(count));
                 Log.d("list_size",String.valueOf(count));
                 for(int i=count-1; i>=0; i--) {
