@@ -173,15 +173,20 @@ public class AddYourFmaily extends AppCompatActivity {
                                 for (int i = 0; i < findFamilyVO.getResult().size(); i++) {
                                     if (findFamilyVO.getResult().get(i).getPhoneNumber().equals(LoginActivity.userVO.getPhoneNumber())) {
                                     } else {
-                                        adapter.addItem(findFamilyVO.getResult().get(i).getNickName() + "/" + findFamilyVO.getResult().get(i).getUserId());
-                                        adapter.setNameToId(findFamilyVO.getResult().get(i).getUserId());
-                                        //Log.d("ddddddd",id);
-                                        family_list_view.setAdapter(adapter);
-                                        familyVO = new FamilyVO();
-                                        //Log.d("bbbbbbbbbbb",""+family_list_view.getMeasuredHeight());
+                                        if(LoginActivity.userVO.getPhoneNumber().equals(findFamilyVO.getResult().get(i).getPhoneNumber())){
+
+                                        }
+                                        else {
+                                            adapter.addItem(findFamilyVO.getResult().get(i).getNickName() + "/" + findFamilyVO.getResult().get(i).getUserId());
+                                            adapter.setNameToId(findFamilyVO.getResult().get(i).getUserId());
+                                            //Log.d("ddddddd",id);
+                                            family_list_view.setAdapter(adapter);
+                                            familyVO = new FamilyVO();
+                                            //Log.d("bbbbbbbbbbb",""+family_list_view.getMeasuredHeight());
 
 
-                                        family_user_id = findFamilyVO.getResult().get(i).getUserId();
+                                            family_user_id = findFamilyVO.getResult().get(i).getUserId();
+                                        }
                                     }
                                 }
 
