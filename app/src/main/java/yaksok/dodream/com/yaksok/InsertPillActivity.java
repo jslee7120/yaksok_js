@@ -102,6 +102,7 @@ public class InsertPillActivity extends AppCompatActivity{
                 //scan option
                 qrScan.setPrompt("QR코드를 스캔하세요");
                 qrScan.setOrientationLocked(false); //디폴트는 가로인데 세로일 경우 세로로 바꾸는 함
+                qrScan.setCaptureActivity(CaptureActivity.class);
                 qrScan.initiateScan();
             }
         });
