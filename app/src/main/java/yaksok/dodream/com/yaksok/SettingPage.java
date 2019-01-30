@@ -1,8 +1,10 @@
 package yaksok.dodream.com.yaksok;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +39,7 @@ public class SettingPage extends AppCompatActivity {
     public DeleteService deleteService;
     TextView id,nickname,email,phone;
     ToggleButton auto_cancel;
+    public AlertDialog.Builder dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,8 @@ public class SettingPage extends AppCompatActivity {
         nickname.setText("닉네임 : " + LoginActivity.userVO.getNickname());
         email.setText("이메일 : " + LoginActivity.userVO.getEmail());
         phone.setText("전화번호 : " + LoginActivity.userVO.getPhoneNumber());
+
+        dialog = new AlertDialog.Builder(this);
 
 
         auto_cancel = (ToggleButton) findViewById(R.id.tgbt_autoLogin);
@@ -94,17 +99,27 @@ public class SettingPage extends AppCompatActivity {
         goOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserDeleteVO userDeleteVO = new UserDeleteVO();
-                userDeleteVO.setId(LoginActivity.userVO.getId());
-                userDeleteVO.setUserType(LoginActivity.userVO.getUserType());
-                Call<FamilyBodyVO> familyBodyVOCall = deleteService.deleteUser(userDeleteVO);
-                familyBodyVOCall.enqueue(new Callback<FamilyBodyVO>() {
-                    @Override
-                    public void onResponse(Call<FamilyBodyVO> call, Response<FamilyBodyVO> response) {
-                        FamilyBodyVO familyBodyVO = response.body();
+                dialog.setTitle("회원 탈퇴");
+                dialog.setMessage("정말 탈퇴 하시겠습니까?");
+                dialog.setCancelable(false);
 
-                        if(familyBodyVO.getStatus().equals("201")){
-                            Toast.makeText(getApplicationContext(),"탈퇴합니다.",Toast.LENGTH_SHORT).show();
+
+
+                dialog.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        UserDeleteVO userDeleteVO = new UserDeleteVO();
+                        userDeleteVO.setId(LoginActivity.userVO.getId());
+                        userDeleteVO.setUserType(LoginActivity.userVO.getUserType());
+                        Call<FamilyBodyVO> familyBodyVOCall = deleteService.deleteUser(userDeleteVO);
+                        familyBodyVOCall.enqueue(new Callback<FamilyBodyVO>() {
+                            @Override
+                            public void onResponse(Call<FamilyBodyVO> call, Response<FamilyBodyVO> response) {
+                                FamilyBodyVO familyBodyVO = response.body();
+
+                                if(familyBodyVO.getStatus().equals("201")){
+                                    Toast.makeText(getApplicationContext(),"탈퇴합니다.",Toast.LENGTH_SHORT).show();
 
 
 
@@ -116,34 +131,40 @@ public class SettingPage extends AppCompatActivity {
                               SharedPreferences.Editor editor = LoginActivity.loginInformation.edit();
                               editor.clear();*/
 
-                           //  LoginActivity.editor.commit();
+                                    //  LoginActivity.editor.commit();
 
 
 
-                          finishAffinity(); //해당 앱의 루트 액티비티를 종료시키낟.
-                          System.runFinalization(); //간단히 말해 작업중인 쓰레드가 다 종료되면, 종료 시키라는 명령어
-                          System.exit(0);//현재 엑티비티를 종료시킨다.
+                                    finishAffinity(); //해당 앱의 루트 액티비티를 종료시키낟.
+                                   // System.runFinalization(); //간단히 말해 작업중인 쓰레드가 다 종료되면, 종료 시키라는 명령어
+                                   // System.exit(0);//현재 엑티비티를 종료시킨다.
 
-                            //moveTaskToBack(true);
+                                    //moveTaskToBack(true);
 
+                                    finish();
+                                    startActivity(new Intent(getApplicationContext(),LoginActivity.class));
 
-
-
-
-                            finish();
-
-                            //android.os.Process.killProcess(android.os.Process.myPid());
+                                    //android.os.Process.killProcess(android.os.Process.myPid());
 
 
 
-                        }
-                    }
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(Call<FamilyBodyVO> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<FamilyBodyVO> call, Throwable t) {
+
+                            }
+                        });
 
                     }
                 });
+                dialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {dialog.cancel();}
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
             }
         });
     }
