@@ -204,36 +204,50 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
         bt_PillInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InsertPillList vo = new InsertPillList();
-                vo.setDosagi(et_dosagi.getText().toString());
-                vo.setElementList(pillList);
-                vo.setName(et_DiseaseName.getText().toString());
-                vo.setUserId(LoginActivity.userVO.getId());
-                vo.setAlarmList(f_id);
-                Log.d("rrr",f_id.get(0));
-                vo.setTimeList(time);
-                System.out.println(vo.getUserId()+"!!!!!!!!!!!!!et_dosagi"+et_dosagi.getText().toString()+"  pilllist" + pillList + "et_diseasename "+et_DiseaseName.getText().toString() + "time "+time);
-                Call<StatusVO> call = userService.postMyInserttPill(vo);
-                call.enqueue(new Callback<StatusVO>() {
-                    @Override
-                    public void onResponse(Call<StatusVO> call, Response<StatusVO> response) {
-                        StatusVO statusVO = response.body();
-                        System.out.println("############" + statusVO.getStatus());
-                        if (statusVO.getStatus().equals("201")) {
-                            Toast.makeText(getApplicationContext(), "등록 성공", Toast.LENGTH_LONG).show();
-                            InsertPillActivity.user_id = LoginActivity.userVO.getId();
-                            finish();
-                        } else if (statusVO.getStatus().equals("403"))
-                            Toast.makeText(getApplicationContext(), "약 중복", Toast.LENGTH_LONG).show();
-                        else if (statusVO.getStatus().equals("500"))
-                            Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
-                    }
+                if(et_DiseaseName.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "약 이름을 입력하세요", Toast.LENGTH_LONG).show();
+                }else if(lo_tab == null){
+                    Toast.makeText(getApplicationContext(), "약 성분을 추가하세요", Toast.LENGTH_LONG).show();
+                }else if(et_Pill.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "약 성분을 입력하세요", Toast.LENGTH_LONG).show();
+                }else if(et_dosagi.getText().toString().equals("0")){
+                    Toast.makeText(getApplicationContext(), "복용횟수를 설정하세요", Toast.LENGTH_LONG).show();
+                }else if(time.size() == 0){
+                    Toast.makeText(getApplicationContext(), "시간을 입력하세요", Toast.LENGTH_LONG).show();
+                }else if(f_id.size() == 0){
+                    Toast.makeText(getApplicationContext(), "알림받을 가족을 선택하세요", Toast.LENGTH_LONG).show();
+                }else {
+                    InsertPillList vo = new InsertPillList();
+                    vo.setDosagi(et_dosagi.getText().toString());
+                    vo.setElementList(pillList);
+                    vo.setName(et_DiseaseName.getText().toString());
+                    vo.setUserId(LoginActivity.userVO.getId());
+                    vo.setAlarmList(f_id);
+                    Log.d("rrr", f_id.get(0));
+                    vo.setTimeList(time);
+                    System.out.println(vo.getUserId() + "!!!!!!!!!!!!!et_dosagi" + et_dosagi.getText().toString() + "  pilllist" + pillList + "et_diseasename " + et_DiseaseName.getText().toString() + "time " + time);
+                    Call<StatusVO> call = userService.postMyInserttPill(vo);
+                    call.enqueue(new Callback<StatusVO>() {
+                        @Override
+                        public void onResponse(Call<StatusVO> call, Response<StatusVO> response) {
+                            StatusVO statusVO = response.body();
+                            System.out.println("############" + statusVO.getStatus());
+                            if (statusVO.getStatus().equals("201")) {
+                                Toast.makeText(getApplicationContext(), "등록 성공", Toast.LENGTH_LONG).show();
+                                InsertPillActivity.user_id = LoginActivity.userVO.getId();
+                                finish();
+                            } else if (statusVO.getStatus().equals("403"))
+                                Toast.makeText(getApplicationContext(), "약 중복", Toast.LENGTH_LONG).show();
+                            else if (statusVO.getStatus().equals("500"))
+                                Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
+                        }
 
-                    @Override
-                    public void onFailure(Call<StatusVO> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<StatusVO> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+                }
 
             }
         });
@@ -250,7 +264,10 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {// 설정버튼 눌렀을 때
             Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
-            h = String.valueOf(hourOfDay);
+            if(String.valueOf(hourOfDay).length() < 2)
+                h = "0"+String.valueOf(hourOfDay);
+            else
+                h = String.valueOf(hourOfDay);
             if(String.valueOf(minute).length() < 2)
                 m = "0" + String.valueOf(minute);
             else
@@ -265,7 +282,10 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {// 설정버튼 눌렀을 때
             Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
-            h = String.valueOf(hourOfDay);
+            if(String.valueOf(hourOfDay).length() < 2)
+                h = "0"+String.valueOf(hourOfDay);
+            else
+                h = String.valueOf(hourOfDay);
             if(String.valueOf(minute).length() < 2)
                 m = "0" + String.valueOf(minute);
             else
@@ -279,7 +299,10 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {// 설정버튼 눌렀을 때
             Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
-            h = String.valueOf(hourOfDay);
+            if(String.valueOf(hourOfDay).length() < 2)
+                h = "0"+String.valueOf(hourOfDay);
+            else
+                h = String.valueOf(hourOfDay);
             if(String.valueOf(minute).length() < 2)
                 m = "0" + String.valueOf(minute);
             else
@@ -301,25 +324,27 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
                 et_Pill.setEnabled(false);
                 bt_add.setEnabled(false);
             }
-            if(requestCode == 9000){
+            if(requestCode == 9000) {
                 int size = 0;
-                Log.d("dataSize",String.valueOf(data.getExtras().size()));
-                for(int i=0; i < Integer.parseInt(data.getStringExtra("list_size")); i++) {
-                    if(data.getStringExtra("name"+i).equals("null")){
+                if (data.getStringExtra("status").equals("111")) {
+                    Log.d("datadddd",String.valueOf(data));
+                    Log.d("dataSize", String.valueOf(data.getExtras().size()));
+                    for (int i = 0; i < Integer.parseInt(data.getStringExtra("list_size")); i++) {
+                        if (data.getStringExtra("name" + i).equals("null")) {
+                        } else {
+                            f_id.add(data.getStringExtra("id" + i));
+                            alarm_f_list.add(data.getStringExtra("name" + i));
+                            Log.d("data1", data.getStringExtra("name" + i) + "/" + data.getStringExtra("id" + i));
+                            size++;
+                        }
                     }
-                    else {
-                        f_id.add(data.getStringExtra("id" + i));
-                        alarm_f_list.add(data.getStringExtra("name" + i));
-                        Log.d("data1", data.getStringExtra("name" + i) + "/" + data.getStringExtra("id" + i));
-                        size++;
-                    }
+                    adapter.notifyDataSetChanged();
+                    bt_AlarmReciveFamily.setEnabled(false);
+                    ViewGroup.LayoutParams params = lv_alarmFamily.getLayoutParams();
+                    params.height = 200 * size;
+                    lv_alarmFamily.setLayoutParams(params);
+                    lv_alarmFamily.setAdapter(adapter);
                 }
-                adapter.notifyDataSetChanged();
-                bt_AlarmReciveFamily.setEnabled(false);
-                ViewGroup.LayoutParams params = lv_alarmFamily.getLayoutParams();
-                params.height = 200*size;
-                lv_alarmFamily.setLayoutParams(params);
-                lv_alarmFamily.setAdapter(adapter);
             }
         }
     }
