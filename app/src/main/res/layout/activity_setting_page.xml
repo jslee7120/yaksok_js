@@ -77,7 +77,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:textOn="해지"
+            android:textOff="사용"/>
     </LinearLayout>
 
     <LinearLayout
@@ -98,7 +101,10 @@
             android:id="@+id/bt_secessionOUT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="탈퇴하기" />
+            android:background="@color/main_color"
+            android:text="탈퇴하기"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
     </LinearLayout>
 
 

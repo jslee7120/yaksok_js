@@ -81,15 +81,38 @@ public class SettingPage extends AppCompatActivity {
 
                 }
                 else {
-                    LoginActivity.autologin = false;
-                    LoginActivity.editor.putBoolean("auto", false);
-                    LoginActivity.editor.remove("id");
-                    LoginActivity.editor.remove("pw");
-                    LoginActivity.editor.remove("userType");
-                    LoginActivity.editor.apply();
-                    finishAffinity();
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    dialog.setTitle("알림");
+                    dialog.setMessage("자동로그인을 해지하시겠습니까?");
+                    dialog.setCancelable(false);
+
+                    dialog.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            LoginActivity.autologin = false;
+                            LoginActivity.editor.putBoolean("auto", false);
+                            LoginActivity.editor.remove("id");
+                            LoginActivity.editor.remove("pw");
+                            LoginActivity.editor.remove("userType");
+                            LoginActivity.editor.apply();
+                            auto_cancel.setChecked(false);
+                            auto_cancel.setEnabled(false);
+                            finishAffinity();
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+                        }
+                    });
+                    dialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            auto_cancel.setChecked(true);
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
+
+
                 }
             }
         });
