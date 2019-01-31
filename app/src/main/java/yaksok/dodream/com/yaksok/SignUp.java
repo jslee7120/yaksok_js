@@ -267,8 +267,20 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"사용할 수 있는 이메일 입니다.",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"다시 입력하세요.",Toast.LENGTH_LONG).show();
-                    sign_up_yourself_email.setText("");
+                    if(sign_up_yourself_email.getText().toString().equals("")){
+                        Toast.makeText(getApplicationContext(), "메일을 입력하세요.", Toast.LENGTH_LONG).show();
+                        sign_up_yourself_email.setFocusable(true);
+                    }
+                    else if(sign_up_yourself_address_email.getText().toString().equals("")) {
+                        Toast.makeText(getApplicationContext(), "주소를 입력하세요.", Toast.LENGTH_LONG).show();
+                        sign_up_yourself_address_email.setFocusable(true);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "메일 형식에 맞지 않습니다.", Toast.LENGTH_LONG).show();
+                        sign_up_yourself_address_email.setText("");
+                        sign_up_yourself_email.setText("");
+                        sign_up_yourself_email.setFocusable(true);
+                    }
                 }
 
 
