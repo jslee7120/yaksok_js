@@ -380,7 +380,7 @@ public class AddYourFmaily extends AppCompatActivity {
         complete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),LoginActivity.userVO.getId(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),LoginActivity.userVO.getId(),Toast.LENGTH_LONG).show();
                 if(isAddedFamily){
                     Log.d("aaaaaaaaaaaaaaa",""+LoginActivity.loginInformation.getBoolean("auto",true));
                     if(LoginActivity.loginInformation.getBoolean("auto",true)){
