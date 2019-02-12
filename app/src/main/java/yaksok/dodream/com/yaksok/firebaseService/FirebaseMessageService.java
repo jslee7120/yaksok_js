@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -84,6 +85,9 @@ public class FirebaseMessageService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String title, String message) { //FCM서버에서 메세지를 앱으로 보내줄시 백그라운드에서 받는 알림내용
+
+        int NOTIFICATION_ID = 234;
+
         if(LoginActivity.userVO == null){
             fireStatus = true;
             userss_name=decodeName;
@@ -93,7 +97,7 @@ public class FirebaseMessageService extends FirebaseMessagingService {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                     PendingIntent.FLAG_ONE_SHOT);
 
-            channelId = getString(R.string.default_notification_channel_id);
+            channelId = "my_channel_01";
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher)
@@ -102,21 +106,39 @@ public class FirebaseMessageService extends FirebaseMessagingService {
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setPriority(Notification.PRIORITY_MAX)
-                    .setContentIntent(pendingIntent);
+                    .setContentIntent(pendingIntent)
+                    .setChannelId("my_channel_01");
 
             notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(channelId,
-                        "channel",
-                        NotificationManager.IMPORTANCE_DEFAULT);
-                notificationManager.createNotificationChannel(channel);
+                String CHANNEL_ID = "my_channel_01";
+                CharSequence name = "my_channel";
+                String Description = "This is my channel";
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                mChannel.setDescription(Description);
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.RED);
+                mChannel.enableVibration(true);
+                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                mChannel.setShowBadge(false);
+                notificationManager.createNotificationChannel(mChannel);
             }
 
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            notificationManager.notify(234 /* ID of notification */, notificationBuilder.build());
 
-        }else {
+        }
+
+
+
+
+
+
+
+
+        else {
             intent = new Intent(this, ChattingRoom.class);
 
 
@@ -142,7 +164,7 @@ public class FirebaseMessageService extends FirebaseMessagingService {
                         .setSound(defaultSoundUri)
                         .setPriority(Notification.PRIORITY_MAX)
                         .setContentIntent(pendingIntent)
-                        .setChannelId(getString(R.string.default_notification_channel_id));
+                        .setChannelId("my_channel_01");
                 //채널 아이디 값을 정확히 지정해줘야 함
 
                 ChattingMenu.user_me = decodeId;
@@ -158,13 +180,27 @@ public class FirebaseMessageService extends FirebaseMessagingService {
 
                 // Since android Oreo notification channel is needed.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(channelId,
+                    /*NotificationChannel channel = new NotificationChannel(channelId,
                             "channel",
                             NotificationManager.IMPORTANCE_DEFAULT);
                     notificationManager.createNotificationChannel(channel);
+                    notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());*/
+
+                    String CHANNEL_ID = "my_channel_01";
+                    CharSequence name = "my_channel";
+                    String Description = "This is my channel";
+                    int importance = NotificationManager.IMPORTANCE_HIGH;
+                    NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                    mChannel.setDescription(Description);
+                    mChannel.enableLights(true);
+                    mChannel.setLightColor(Color.RED);
+                    mChannel.enableVibration(true);
+                    mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                    mChannel.setShowBadge(false);
+                    notificationManager.createNotificationChannel(mChannel);
                 }
 
-                notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+                notificationManager.notify(234 /* ID of notification */, notificationBuilder.build());
                 //notify(Id of notification,
 
 

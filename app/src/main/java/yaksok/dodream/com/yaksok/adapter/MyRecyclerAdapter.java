@@ -135,7 +135,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
 
         }
-       Log.d("test15", albumList.get(position).getReceivingUser() + "," + LoginActivity.userVO.getId());
+       //Log.d("test15", albumList.get(position).getReceivingUser() + "," + LoginActivity.userVO.getId());
         if(ChattingRoom.albumList.get(position).getReceivingUser().equals(LoginActivity.userVO.getId())){
 
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
