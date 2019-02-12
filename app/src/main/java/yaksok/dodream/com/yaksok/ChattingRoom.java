@@ -119,7 +119,7 @@ public class ChattingRoom extends AppCompatActivity  {
 
 
         //Log.d("iiiiiiiii",intent.getStringExtra("from"));
-        Toast.makeText(getApplicationContext(),intent.getStringExtra("send_user")+""+intent.getStringExtra("recived_message"),Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),intent.getStringExtra("send_user")+""+intent.getStringExtra("recived_message"),Toast.LENGTH_LONG).show();
 
 
         userID2 = new UserID2(user2_id);

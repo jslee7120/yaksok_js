@@ -552,7 +552,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     editor.apply();
 
                     Log.d("test",loginInformation.getString("id","")+loginInformation.getString("pw","")+loginInformation.getString("userType",""));
-                    Toast.makeText(getApplicationContext(),"반갑습니다.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"반갑습니다. ",Toast.LENGTH_LONG).show();
                     pushToken();
                     startActivity(new Intent(getApplicationContext(),MainPageActivity.class));
                     userVO.setNickname(bodyVO.getResult().getNickName());
