@@ -214,7 +214,7 @@ public class MainPageActivity extends AppCompatActivity {
         int x = ++ctime;
 
         @Override
-        public void run() {
+        public void run(){
             while (true) {
                 // 메인에서 생성된 Handler 객체의 sendEmpryMessage 를 통해 Message 전달
                 Log.d("x= ", String.valueOf(x));
@@ -224,6 +224,17 @@ public class MainPageActivity extends AppCompatActivity {
                     Log.d("countDownTimer", "success");
                     SimpleDateFormat timeFormat = new SimpleDateFormat("HHmm");
                     String countTime = timeFormat.format(nowTime);
+                    String p_h = String.valueOf(pilltime_h);
+                    String p_m = String.valueOf(pilltime_m);
+                    if(p_h.length() < 2)
+                        p_h = "0" + p_h;
+                    if(p_m.length() < 2)
+                        p_m = "0" + p_m;
+                    if(countTime.equals(p_h+p_m)){
+                        pillTime();
+                        break;
+                    }
+
                         int countTime_hour = Integer.parseInt(countTime.substring(0, 2));
                         int countTime_min = Integer.parseInt(countTime.substring(2));
                         Log.d("countTIme", countTime);
@@ -311,7 +322,6 @@ public class MainPageActivity extends AppCompatActivity {
                     pilltime_h = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(0, 2));
                     pilltime_m = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(2));
                     ptime = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(0, 4));
-
                     if(ptime == Integer.parseInt(curTime)){
                             pillTime_day = 1;//다음약이 내일일(초로 계산)
                             t1 = (((23 * 3600) + (59 * 60)) - ((nowtime_hour * 3600) + (nowtime_min * 60)));
