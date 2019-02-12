@@ -14,7 +14,6 @@ public class AlarmReceive extends BroadcastReceiver {   //BroadcastReceiver 가�
     final String TAG = "BOOT_START_SERVICE";
     public static String userId, pillNo;
 
-
     @Override
     public void onReceive(Context context, Intent intent) {//알람 시간이 되었을때 onReceive를 호출함
         Log.d("알람여부", "리시브 들어옴");
