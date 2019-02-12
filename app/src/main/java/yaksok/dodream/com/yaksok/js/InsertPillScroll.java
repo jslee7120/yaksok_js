@@ -236,8 +236,10 @@ public class InsertPillScroll  extends AppCompatActivity implements View.OnClick
                                 Toast.makeText(getApplicationContext(), "등록 성공", Toast.LENGTH_LONG).show();
                                 InsertPillActivity.user_id = LoginActivity.userVO.getId();
                                 finish();
-                            } else if (statusVO.getStatus().equals("403"))
-                                Toast.makeText(getApplicationContext(), "약 중복", Toast.LENGTH_LONG).show();
+                            } else if (statusVO.getStatus().equals("402"))
+                                Toast.makeText(getApplicationContext(), "약 이름이 중복됩니다", Toast.LENGTH_LONG).show();
+                            else if(statusVO.getStatus().equals("403"))
+                                Toast.makeText(getApplicationContext(), "복용 시간이 중복됩니다", Toast.LENGTH_LONG).show();
                             else if (statusVO.getStatus().equals("500"))
                                 Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
                         }
