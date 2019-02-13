@@ -166,6 +166,10 @@ public class ChattingRoom extends AppCompatActivity  {
                 Log.d("time","!!!!!!!!!!!!!"+inTime);
 
 
+                if(user_contextEdt.getText().length()==0){
+                    return;
+                }
+
 
                 //linearLayoutManager.setReverseLayout(true);
 
