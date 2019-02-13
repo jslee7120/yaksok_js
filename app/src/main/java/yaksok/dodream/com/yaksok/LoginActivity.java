@@ -188,9 +188,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login_normal_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userType = "G";
-                editor.putString("userType",userType);
-                editor.apply();
+                  userType = "G";
+//                editor.putString("userType",userType);
+//                editor.apply();
 
                 g_login(main_id_edt.getText().toString(),main_pw_edt.getText().toString(),"G");
 
@@ -546,10 +546,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     loginInformation = getSharedPreferences("user",MODE_PRIVATE);
                     editor = loginInformation.edit();
 
-                    editor.putString("id",g_id);
-                    editor.putString("pw",g_pw);
-                    editor.putString("userType",userType);
-                    editor.apply();
+                    if(loginInformation.getBoolean("auto",true)){
+                        editor.putString("id",g_id);
+                        editor.putString("pw",g_pw);
+                        editor.putString("userType",userType);
+                        editor.apply();
+                    }
 
                     Log.d("test",loginInformation.getString("id","")+loginInformation.getString("pw","")+loginInformation.getString("userType",""));
                     Toast.makeText(getApplicationContext(),"반갑습니다. ",Toast.LENGTH_LONG).show();
@@ -558,6 +560,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     userVO.setNickname(bodyVO.getResult().getNickName());
                     userVO.setEmail(bodyVO.getResult().getEmail());
                     userVO.setPhoneNumber(bodyVO.getResult().getPhoneNumber());
+
+                   // Toast.makeText(getApplicationContext(),loginInformation.getString("id","")+""+loginInformation.getString("pw","")+loginInformation.getString("userType",""),Toast.LENGTH_LONG).show();
 
                 }
                 else if (bodyVO.getStatus().equals("024")) {
