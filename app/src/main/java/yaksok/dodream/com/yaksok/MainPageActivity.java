@@ -321,7 +321,7 @@ public class MainPageActivity extends AppCompatActivity {
                     pilltime_h = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(0, 2));
                     pilltime_m = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(2));
                     ptime = Integer.parseInt(nearTimeMedicineVO.getResult().getTime().substring(0, 4));
-                    if(ptime == Integer.parseInt(curTime)){
+                    if(ptime <= Integer.parseInt(curTime)){
                             pillTime_day = 1;//다음약이 내일일(초로 계산)
                             t1 = (((23 * 3600) + (59 * 60)) - ((nowtime_hour * 3600) + (nowtime_min * 60)));
                             times = (t1 + ((pilltime_h * 3600) + (pilltime_m * 60)));
@@ -396,15 +396,15 @@ public class MainPageActivity extends AppCompatActivity {
         if (pillTime_day == 1) {
             calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , calendar.get(Calendar.DATE), pilltime_h + 24, pilltime_m);
             Log.d("음..","내일약");
-            am.set(AlarmManager.RTC,calendar.getTimeInMillis(),pender);
         }
         else {
             calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , calendar.get(Calendar.DATE), pilltime_h, pilltime_m);//시간을 셋팅
             Log.d("음..","오늘약");
-            am.set(AlarmManager.RTC,calendar.getTimeInMillis(),pender);
         }
         //알람 예약
-
+        am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Log.d("setTime", String.valueOf(calendar.getTime()));
+        am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pender);
         //am.set(AlarmManager.RTC, calendar.getTimeInMillis(), pender);//이건 한번 알람
         //am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, sender);//이건 여러번 알람 24*60*60*1000 이건 하루에한번 계속 알람한다는 뜻.
     }
