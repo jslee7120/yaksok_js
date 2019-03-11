@@ -99,6 +99,7 @@
             android:windowSoftInputMode="stateAlwaysHidden">
 
         </activity>
+        <activity android:name=".js.DeveloperInfo"/>
         <receiver android:name=".AlarmReceive"
             android:enabled="true"/>
 
