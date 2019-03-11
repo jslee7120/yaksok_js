@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -222,7 +224,14 @@ public class SettingPage extends AppCompatActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.chattingactionbar,null);
         ImageView imageView = view.findViewById(R.id.back_layout_imv);
         TextView textView = view.findViewById(R.id.title_txt);
+        FrameLayout frameLayout = view.findViewById(R.id.frame_layout);
 
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +241,8 @@ public class SettingPage extends AppCompatActivity {
                 finish();
             }
         });
+
+
         textView.setText("설 정");
         textView.setGravity(Gravity.CENTER);
 //        textView.setGravity(Gravity.CENTER);

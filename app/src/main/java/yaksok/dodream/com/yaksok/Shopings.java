@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,6 +107,16 @@ public class Shopings extends AppCompatActivity {
 
         Intent resultIntent = new Intent();
         setResult(4000,resultIntent);
+
+        FrameLayout frameLayout = view.findViewById(R.id.frame_layout);
+
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
