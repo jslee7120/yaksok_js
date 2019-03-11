@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -467,6 +468,15 @@ public class AddYourFmaily extends AppCompatActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.chattingactionbar,null);
         ImageView imageView = view.findViewById(R.id.back_layout_imv);
         TextView textView = view.findViewById(R.id.title_txt);
+
+        FrameLayout frameLayout = view.findViewById(R.id.frame_layout);
+
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         Intent resultIntent = new Intent();
