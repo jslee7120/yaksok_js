@@ -31,6 +31,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import yaksok.dodream.com.yaksok.js.DeveloperInfo;
 import yaksok.dodream.com.yaksok.service.DeleteService;
 import yaksok.dodream.com.yaksok.vo.FamilyBodyVO;
 import yaksok.dodream.com.yaksok.vo.UserDeleteVO;
@@ -41,6 +42,7 @@ public class SettingPage extends AppCompatActivity {
     public DeleteService deleteService;
     TextView id,nickname,email,phone;
     ToggleButton auto_cancel;
+    Button bt1;
     public AlertDialog.Builder dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,15 @@ public class SettingPage extends AppCompatActivity {
         nickname = (TextView)findViewById(R.id.tv_setting_nickname);
         email = (TextView)findViewById(R.id.tv_setting_email);
         phone = (TextView)findViewById(R.id.tv_setting_phone);
+        bt1 = (Button)findViewById(R.id.bt_developer_info);
+
+        bt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),DeveloperInfo.class);
+                startActivity(intent);
+            }
+        });
 
 
         retorofit2 = new Retrofit.Builder()
