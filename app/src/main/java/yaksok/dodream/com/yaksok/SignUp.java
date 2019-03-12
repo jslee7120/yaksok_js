@@ -474,9 +474,14 @@ public class SignUp extends AppCompatActivity {
                Log.d("server_before","sssssssss");
 
                if(bodyVO.getStatus().equals("201")){
-                   startActivity(new Intent(getApplicationContext(),AddYourFmaily.class));
+                   Intent intent = new Intent(getApplicationContext(),AddYourFmaily.class);
+                   intent.putExtra("itForSignUp","itForSignUp");
+
                    Toast.makeText(getApplicationContext(),"가입 성공 되었습니다.",Toast.LENGTH_LONG).show();
+
                    pushToken();
+
+                   startActivity(intent);
 
                    finish();
                }

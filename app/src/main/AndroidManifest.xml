@@ -15,9 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-
-        >
+        android:usesCleartextTraffic="true">
         <activity android:name=".LoginActivity" />
 
         <meta-data
@@ -45,20 +43,18 @@
         <activity android:name=".customize_actionbar" />
         <activity android:name=".ChattingMenu" />
         <activity android:name=".ChattingRoom" />
-       <activity android:name=".InsertPillActivity"/>
+        <activity android:name=".InsertPillActivity" />
         <activity android:name=".js.InsertPillScroll" />
         <activity android:name=".js.InsertPillScrollQR" />
-        <activity android:name=".js.SearchPill"
+        <activity
+            android:name=".js.SearchPill"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".CaptureActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden">
-
-        </activity>
-
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
         <service
             android:name=".firebaseService.FirebaseMessageService"
@@ -76,31 +72,30 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <receiver android:name=".AlarmReceive"
-            android:enabled="true">
-        </receiver>
-        <activity android:name=".TakeMedicineDialog"/>
 
-        <activity android:name=".Shopings">
-        </activity>
+        <receiver
+            android:name=".AlarmReceive"
+            android:enabled="true"></receiver>
+
+        <activity android:name=".TakeMedicineDialog" />
+        <activity android:name=".Shopings"></activity>
         <activity
             android:name=".Alarm_On"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent" >
-        </activity>
-        <activity android:name=".AlarmReciveFamily"/>
-        <activity android:name=".AlarmReciveFamilyQR"/>
+            android:theme="@android:style/Theme.Translucent"></activity>
+        <activity android:name=".AlarmReciveFamily" />
+        <activity android:name=".AlarmReciveFamilyQR" />
         <activity
             android:name=".CaptureActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
-        </activity>
-        <receiver android:name=".AlarmReceive"
-            android:enabled="true"/>
+        <receiver
+            android:name=".AlarmReceive"
+            android:enabled="true" />
 
     </application>
 

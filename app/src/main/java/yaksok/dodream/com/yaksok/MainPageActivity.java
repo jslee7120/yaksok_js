@@ -1,8 +1,10 @@
 package yaksok.dodream.com.yaksok;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -41,7 +43,7 @@ import yaksok.dodream.com.yaksok.vo.TakeOk;
 
 public class MainPageActivity extends AppCompatActivity {
     private String img_url;
-    Button bt_chat, bt_InsertPill, btn_addFamily, btn_shopping;
+    Button bt_chat, bt_InsertPill, btn_addFamily, btn_shopping,btn_premium;
 
     Retrofit retrofit;
     UserService userService;
@@ -65,6 +67,7 @@ public class MainPageActivity extends AppCompatActivity {
     //설정된 시간 이내에 연속적으로 뒤로가기가 이벤트가 일어났을 때만 종료 됨
     //설정해 놓은 시간이 지나면 다시 두번 눌러야 종료되는 상태로 최기화
 
+    AlertDialog.Builder dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +145,27 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Shopings.class));
                 overridePendingTransition(R.anim.pull_out_left, R.anim.pull_in_right);
+            }
+        });
+
+        dialog = new AlertDialog.Builder(this);
+
+        btn_premium = (Button)findViewById(R.id.bt_Premium);
+        btn_premium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.setTitle("약속 공지사항");
+                dialog.setMessage("준비중 입니다.");
+                dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+
             }
         });
 

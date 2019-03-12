@@ -67,7 +67,7 @@ public class AddYourFmaily extends AppCompatActivity {
         actionBar.setTitle("나의 가족 등록");
         setContentView(R.layout.activity_find_your_fmailies);
         intent = new Intent(getIntent());
-        itForSignUp = intent.getStringExtra("x");
+        itForSignUp = intent.getStringExtra("itForSignUp");
         //Log.d("aaaaaaaaaaaaa",itForSignUp);
 
         fmaily_number_edt = (EditText) findViewById(R.id.findFamily_edt);
@@ -88,7 +88,7 @@ public class AddYourFmaily extends AppCompatActivity {
             family_find_skip_btn.setVisibility(View.GONE);
 
         }
-        else if(itForSignUp.equals("xx")){
+        else if(itForSignUp.equals("itForSignUp")){
 
             family_find_skip_btn.setVisibility(View.VISIBLE);
 
