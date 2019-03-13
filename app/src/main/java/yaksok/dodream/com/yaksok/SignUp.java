@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -78,6 +79,8 @@ public class SignUp extends AppCompatActivity {
     int month,day;
     public Button confirm_email_btn;
     String ageRange;
+
+    boolean confirmId,confirmPw,confirmEmail;
 
 
 
@@ -301,6 +304,7 @@ public class SignUp extends AppCompatActivity {
                 user_email = sign_up_yourself_email.getText().toString() + "@" + sign_up_yourself_address_email.getText().toString();
                 if(checkEmail(user_email)){
                     Toast.makeText(getApplicationContext(),"사용할 수 있는 이메일 입니다.",Toast.LENGTH_LONG).show();
+                    confirmEmail = true;
                 }
                 else{
                     if(sign_up_yourself_email.getText().toString().equals("")){
@@ -342,6 +346,7 @@ public class SignUp extends AppCompatActivity {
                 }
                else{
                     Toast.makeText(getApplicationContext(),"아이디가 적합합니다",Toast.LENGTH_LONG).show();
+                    confirmId = true;
                 }
             }
         });
@@ -367,6 +372,7 @@ public class SignUp extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"비밀번호가 적절합니다.",Toast.LENGTH_LONG).show();
+                    confirmPw = true;
                 }
 
             }
@@ -443,7 +449,14 @@ public class SignUp extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), DBHELPER.getResult()+id, Toast.LENGTH_LONG).show();
 
 
-                ToServer();
+                if(confirmId && confirmPw && confirmEmail){
+                    ToServer();
+                }else{
+                    Toast.makeText(getApplicationContext(),"확인 버튼 다시 한 번 확인해주세요",Toast.LENGTH_LONG).show();
+                }
+
+
+
 
               /*  loginInformation = getSharedPreferences("user",MODE_PRIVATE);
                 SharedPreferences.Editor editor = loginInformation.edit();
