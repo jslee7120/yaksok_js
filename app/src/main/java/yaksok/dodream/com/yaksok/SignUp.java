@@ -77,6 +77,7 @@ public class SignUp extends AppCompatActivity {
     int born_year, now_year,age;
     int month,day;
     public Button confirm_email_btn;
+    String ageRange;
 
 
 
@@ -140,44 +141,78 @@ public class SignUp extends AppCompatActivity {
                 user_born_year =  String.valueOf(sign_up_year_spin.getItemAtPosition(position));
                 born_year = Integer.parseInt(user_born_year.substring(0,4));
                 now_year  = Integer.parseInt(nowDate.substring(0,4));
-                age = now_year - born_year +1;
-                System.out.println(age);
+                age = now_year - born_year;
 
-                if(age>=90){
-                    age_range = "90-99";
-                    System.out.println(age_range);
-                }
-                else if(age>=80){
-                    age_range = "80-89";
-                    System.out.println(age_range);
+                //System.out.print("age_range"+sortOfAge(age));
+
+
+                if(0<= age && age <10){
+                    System.out.print("age "+age);
+                    System.out.println("1-9");
+                    ageRange = "1-9";
 
                 }
-                else if(age>=70){
-                    age_range = "70-79";
-                    System.out.println(age_range);  }
-                else if(age>=60){
-                    age_range = "60-69";
-                    System.out.println(age_range);
+                else if(10 <= age && age < 20){
+                    System.out.print("age "+age);
+                    System.out.println("10-19");
+                    ageRange = "10-19";
                 }
-                else if(age>=50){
-                    age_range = "50-59";
-                    System.out.println(age_range);
+                else if(20 <= age && age < 30){
+                    System.out.print("age "+age);
+                    System.out.println("20-29");
+                    ageRange = "20-29";
                 }
-                else if(age>=40){
-                    age_range = "40-49";
-                    System.out.println(age_range);
+                else if(30 <= age && age < 40){
+                    System.out.print("age "+age);
+                    System.out.println("30-39");
+                    ageRange = "30-39";
                 }
-                else if(age>=30){
-                    age_range = "30-39";
-                    System.out.println(age_range);
+                else if(40 <= age && age < 49){
+                    System.out.print("age "+age);
+                    System.out.println("40-49");
+                    ageRange = "40-49";
                 }
-                else if(age>=20){
-                    age_range = "20-29";
-                    System.out.println(age_range);
-                }else if(age>=10){
-                    age_range = "1-10";
-                    System.out.println(age_range);
+                else if(50 <= age && age < 59){
+                    System.out.print("age "+age);
+                    System.out.println("50-59");
+                    ageRange = "50-59";
                 }
+                else if(60 <= age && age < 69){
+                    System.out.print("age "+age);
+                    System.out.println("60-69");
+                    ageRange = "60-69";
+                }
+                else if(70 <= age && age < 79){
+                    System.out.print("age "+age);
+                    System.out.println("70-79");
+                    ageRange = "70-79";
+                }
+                else if(80 <= age && age < 89){
+                    System.out.print("age "+age);
+                    System.out.println("80-89");
+                    ageRange = "80-89";
+                }
+                else if(90 <= age && age < 99){
+                    System.out.print("age "+age);
+                    System.out.println("90-99");
+                    ageRange = "90-99";
+                }
+
+//                else if(20 <= age && age < 30)
+//                    System.out.print("20-29");
+//                else if(30 <= age && age < 40)
+//                    System.out.print("30-39");
+//                else if(40 <= age && age < 50)
+//                    System.out.print("40-49");
+//                else if(50 <= age && age < 60)
+//                    System.out.print("50-59");
+//                else if(60 <= age && age < 70)
+//                    System.out.print("60-69");
+//                else if(70 <= age && age < 80)
+//                    System.out.print("70-79");
+//                else if(90 <= age && age < 100)
+//                    System.out.print("90-99");
+
 
 
             }
@@ -461,7 +496,7 @@ public class SignUp extends AppCompatActivity {
         LoginActivity.userVO.setProfileImagePath("");
         LoginActivity.userVO.setEmail(user_email);
         LoginActivity.userVO.setBirthday(birthday);
-        LoginActivity.userVO.setAgeRange("10-19");
+        LoginActivity.userVO.setAgeRange(ageRange);
         LoginActivity.userVO.setUserType("G");
         System.out.println(LoginActivity.userVO);
         Call<BodyVO> call = userService.postSignUp(LoginActivity.userVO);
@@ -675,4 +710,17 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-}
+   /* public String sortOfAge(int age) {
+
+
+        if (age >= 1 && age <= 5)
+            return "1-5";
+
+        return "";
+
+    }*/
+
+    }
+
+
+
