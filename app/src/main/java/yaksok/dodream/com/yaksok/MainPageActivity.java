@@ -3,6 +3,7 @@ package yaksok.dodream.com.yaksok;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,6 +46,8 @@ public class MainPageActivity extends AppCompatActivity {
     private String img_url;
     Button bt_chat, bt_InsertPill, btn_addFamily, btn_shopping,btn_premium;
 
+
+
     Retrofit retrofit;
     UserService userService;
 
@@ -69,6 +72,11 @@ public class MainPageActivity extends AppCompatActivity {
 
     AlertDialog.Builder dialog;
 
+    //progressDialog
+    ProgressDialog progressDialog;
+
+
+    public static int TIME_OUT = 1001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,19 +163,26 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                dialog.setTitle("약속 공지사항");
-                dialog.setMessage("준비중 입니다.");
-                dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
 
+                progressDialog = ProgressDialog.show(MainPageActivity.this, "공지사항", "준비중입니다...", true);
+                progressDialog.setCancelable(true);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (Exception e) {
+
+                        }
+                        progressDialog.dismiss();
+                    }
+                }).start();
             }
         });
+        /*
+            progressBar 3초동안 progress 로 보여주고 꺼짐
+            텍스트는 준비중이라고 뜸
+         */
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(userService.API_URL)
@@ -497,9 +512,6 @@ public class MainPageActivity extends AppCompatActivity {
         if(LoginActivity.loginInformation.getBoolean("auto",true))
             android.os.Process.killProcess(android.os.Process.myPid() );
 
-
-
-
-
     }
+
 }
