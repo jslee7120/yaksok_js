@@ -151,8 +151,9 @@ public class MainPageActivity extends AppCompatActivity {
         btn_shopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Shopings.class));
-                overridePendingTransition(R.anim.pull_out_left, R.anim.pull_in_right);
+                setProgressDialog(MainPageActivity.this, "쇼핑 서비스", "준비중입니다...", true);
+                /*startActivity(new Intent(getApplicationContext(), Shopings.class));
+                overridePendingTransition(R.anim.pull_out_left, R.anim.pull_in_right);*/
             }
         });
 
@@ -163,20 +164,8 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                setProgressDialog(MainPageActivity.this, "프리미엄 서비스", "준비중입니다...", true);
 
-                progressDialog = ProgressDialog.show(MainPageActivity.this, "공지사항", "준비중입니다...", true);
-                progressDialog.setCancelable(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (Exception e) {
-
-                        }
-                        progressDialog.dismiss();
-                    }
-                }).start();
             }
         });
         /*
@@ -512,6 +501,24 @@ public class MainPageActivity extends AppCompatActivity {
         if(LoginActivity.loginInformation.getBoolean("auto",true))
             android.os.Process.killProcess(android.os.Process.myPid() );
 
+    }
+
+
+    //progressDialog setting method
+    public void setProgressDialog(Context context,String title, String message,boolean determinate){
+        progressDialog = ProgressDialog.show(context, title, message, determinate);
+        progressDialog.setCancelable(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception e) {
+
+                }
+                progressDialog.dismiss();
+            }
+        }).start();
     }
 
 }
